@@ -9,7 +9,7 @@ store
     <!--  three equal-width columns starting at tablets -->
      {% for product in products %}
     <div class = 'col-lg-4'>
-        <img class ='thumbnail' src="">
+        <img class ='thumbnail' src="{{ product.imageURL}}">
        <div class="box-element product">
            <h6><strong>{{ product.name }}</strong></h6>
            <hr>

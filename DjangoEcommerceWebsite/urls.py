@@ -25,4 +25,4 @@ urlpatterns = [
 
 ]
 
-urlpatterns += static(settings.MEDIA_URL, document_root = settings.MEDIA_ROOT )
+urlpatterns += static(settings.MEDIA_URL, document_root = settings.MEDIA_ROOT ) #this line is written for dynamically accessing images from directory.

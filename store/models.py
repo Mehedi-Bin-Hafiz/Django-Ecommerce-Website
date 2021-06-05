@@ -19,6 +19,14 @@ class Product(models.Model):
     def __str__(self):
         return self.name
 
+    @property
+    def imageURL(self):
+        try:
+            url = self.image.url
+        except:
+            url = ''
+        return url
+
     
 # Set the reference to NULL (requires the field to be nullable). For instance, when you delete a User, you might want to keep the comments he posted on blog posts, but say it was posted by an anonymous (or deleted) user. SQL equivalent: SET NULL.
 
@@ -30,14 +38,33 @@ class Order(models.Model):
 
 
     def __str__(self):
-        return self.id
+        return str(self.id)
+
+    @property
+    def get_cart_total(self):
+        orderitems = self.orderitem_set.all()
+        total = sum([item.get_total for item in orderitems]) #item er modde theke get total k nia hoice
+        return total
+
+### this is vvi thinks ####
+
+    @property
+    def get_cart_items(self):
+        orderitems = self.orderitem_set.all()
+        total = sum([item.quantity for item in orderitems]) #item theke total quantity nia hoice
+        return total
 
 
 class OrderItem(models.Model):
-    customer = models.ForeignKey(Product, on_delete=models.SET_NULL, null= True, blank= True)
+    product = models.ForeignKey(Product, on_delete=models.SET_NULL, null= True, blank= True)
     order = models.ForeignKey(Order, on_delete=models.SET_NULL, blank=True, null= True)
     quantity = models.IntegerField(default=0, null=True, blank=True)
     date_added = models.DateTimeField(auto_now_add=True)
+
+    @property
+    def get_total(self):
+        total = self.quantity * self.product.price
+        return total
 
 
 class ShippingAddress(models.Model):
